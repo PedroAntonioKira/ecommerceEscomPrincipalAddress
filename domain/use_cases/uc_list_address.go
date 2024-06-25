@@ -8,7 +8,7 @@ import (
 	//"fmt"
 
 	//importaciones externas (descargadas)
-	"github.com/aws/aws-lambda-go/events"
+//	"github.com/aws/aws-lambda-go/events"
 
 	//importaciones personalizadas (creadas desde cero)
 	"github.com/PedroAntonioKira/ecommerceEscomPrincipalAddress/domain/repositories"
@@ -16,13 +16,13 @@ import (
 	//"github.com/PedroAntonioKira/EcommerceEscomAPIREST/models"
 )
 
-func ListCategoryUC(body string, request events.APIGatewayProxyRequest) (int, string) {
+func ListAddressUC(body string, User string) (int, string) {
 
 	status := 200
 	response := "Vacio"
 
 
-	status, response = repositories.ListCategoryRepositories(body, request)
+	status, response = repositories.ListAddressRepositories(body, User)
 
 
 	return status, response

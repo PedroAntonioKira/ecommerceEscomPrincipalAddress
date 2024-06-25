@@ -8,7 +8,7 @@ import (
 	//"fmt"
 
 	//importaciones externas (descargadas)
-	"github.com/aws/aws-lambda-go/events"
+//	"github.com/aws/aws-lambda-go/events"
 
 	//importaciones personalizadas (creadas desde cero)
 //	"github.com/PedroAntonioKira/ecommerceEscomPrincipalCategoria/adapters/secundary"
@@ -17,46 +17,20 @@ import (
 	//"github.com/PedroAntonioKira/EcommerceEscomAPIREST/models"
 )
 
-func ListCategoryQuery(body string, request events.APIGatewayProxyRequest) (int, string) {
-//	var err error
-	var CategId int
-	var Slug string // Es el path (CategoryPath), solo que se suele llamar así en un ecommerce
+func ListAddressQuery(body string, User string) (int, string) {
 
-/*
-	//Verificamos si recibimos el "CategId" o recibimos el "Slug"
-	if len(request.QueryStringParameters["categId"]) > 0 {
+	// Es el path (CategoryPath), solo que se suele llamar así en un ecommerce
 
-		CategId, err = strconv.Atoi(request.QueryStringParameters["categId"])
-
-		//Verificamos que la conversión haya sido correcta
-		if err != nil {
-			return 500, "Ocurrio un error al intentar convertir en entero el valor" + request.QueryStringParameters["categId"]
-		}
-	} else {
-		if len(request.QueryStringParameters["slug"]) > 0 {
-			Slug = request.QueryStringParameters["slug"]
-		}
+	addr, err := database.ListAddressQuery(User)
+	if err != nil{
+		return 400, "Ocurrio un error al intentar obtener la lista de direcciones del usuario" + User + " > " + err.Error()
 	}
 
-*/
-	CategId = 0 // Se traera todos los datos
-	Slug = "Se traeran todos los datos"
-	//Si no se especifica por que debemos filtrar (id o path) devolvemos todas las categorias de la Base de Datos.
-	lista, err2 := database.ListCategoryQuery(CategId, Slug)
-
-	//Validamos si no tuvimos un error al capturar categorias
-	if err2 != nil {
-		return 400, "Ocurrio un error al intentar capturar categoría/s > " + err2.Error()
+	respJson, err := json.Marshal(addr)
+	if err != nil{
+		return 500, "Error al formastear los datos de las Addresses como JSON"
 	}
 
-	// Obtenemos la información en un JSON
-	Categ, err3 := json.Marshal(lista)
-
-	// Verificamos no haya existido ningun error al pasar la estructura y obtener la información
-	if err3 != nil {
-		return 400, "Ocurrio un error al intentar capturar la Categoría/s > " + err3.Error()
-	}
-
-	return 200, string(Categ)
+	return 200, string(respJson)
 
 }

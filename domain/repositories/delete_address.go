@@ -7,12 +7,12 @@ import (
 	"github.com/PedroAntonioKira/ecommerceEscomPrincipalAddress/domain/queries_category"
 )
 
-func DeleteCategoryRepositories(body string, user string, pathParams int) (int, string) {
+func DeleteAddressRepositories(body string, user string, pathParams int) (int, string) {
 	status := 200
 	response := "Vacio Delete Category Repositories"
 
 	fmt.Println("Entramos a DeleteCategoryRepositories")
-	status, response = queries_category.DeleteCategoryQuery(body, user, pathParams)
+	status, response = queries_category.DeleteAddressQuery(body, user, pathParams)
 
 	return status, response
 }
